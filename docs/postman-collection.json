@@ -1,0 +1,310 @@
+{
+  "info": {
+    "name": "Tiffin Management System API",
+    "description": "Postman collection for Spring Boot backend (base URL: http://localhost:8080/api)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" },
+    { "key": "adminToken", "value": "" },
+    { "key": "studentToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/v1/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@tiffin.com\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Student Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/v1/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@example.com\",\n  \"password\": \"student123\",\n  \"firstName\": \"Rahul\",\n  \"lastName\": \"Sharma\",\n  \"phone\": \"9876543210\",\n  \"enrollmentNumber\": \"EN2026001\",\n  \"hostelBlock\": \"A\",\n  \"roomNumber\": \"101\",\n  \"aadhaarNumber\": \"123456789012\",\n  \"dietPreference\": \"VEG\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Student Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/v1/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@example.com\",\n  \"password\": \"student123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Search Students (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/students?keyword=rahul&page=0&size=10"
+          }
+        },
+        {
+          "name": "Get Current Student Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/students/me"
+          }
+        },
+        {
+          "name": "Create Student (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/students",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newstudent@example.com\",\n  \"password\": \"pass123\",\n  \"firstName\": \"Amit\",\n  \"lastName\": \"Verma\",\n  \"phone\": \"9123456789\",\n  \"enrollmentNumber\": \"EN2026002\",\n  \"hostelBlock\": \"B\",\n  \"roomNumber\": \"205\",\n  \"dietPreference\": \"VEG\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload Aadhaar Document",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/students/1/aadhaar",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "/path/to/aadhaar.pdf" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/students/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hostelBlock\": \"C\",\n  \"roomNumber\": \"310\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Student (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/students/2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menus",
+      "item": [
+        {
+          "name": "Get Weekly Menus",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/menus?startDate=2026-06-16&endDate=2026-06-22"
+          }
+        },
+        {
+          "name": "Create Menu (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/menus",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"menuDate\": \"2026-06-16\",\n  \"mealType\": \"LUNCH\",\n  \"title\": \"North Indian Thali\",\n  \"description\": \"Dal, roti, rice, sabzi\",\n  \"items\": { \"main\": \"Dal Makhani\", \"bread\": \"Roti\", \"rice\": \"Jeera Rice\" },\n  \"isPublished\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Menu (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/menus/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Thali\",\n  \"isPublished\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Menu (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/menus/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Mark Attendance (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/attendance",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentProfileId\": 1,\n  \"menuId\": 1,\n  \"attendanceDate\": \"2026-06-16\",\n  \"status\": \"PRESENT\",\n  \"remarks\": \"On time\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Attendance by Date (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/attendance?date=2026-06-16"
+          }
+        },
+        {
+          "name": "Get My Attendance (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/attendance"
+          }
+        },
+        {
+          "name": "Update Attendance (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/attendance/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ABSENT\",\n  \"remarks\": \"Absent without notice\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Attendance (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/attendance/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Place Order (Student)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"menuId\": 1,\n  \"orderDate\": \"2026-06-16\",\n  \"quantity\": 1,\n  \"specialInstructions\": \"Less spicy\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Orders (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/orders"
+          }
+        },
+        {
+          "name": "Get My Orders (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/orders"
+          }
+        },
+        {
+          "name": "Update Order Status (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/v1/orders/1/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"DELIVERED\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": "{{baseUrl}}/v1/orders/1/cancel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Admin Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/v1/dashboard/stats"
+          }
+        }
+      ]
+    }
+  ]
+}

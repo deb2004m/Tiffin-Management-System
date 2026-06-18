@@ -1,0 +1,22 @@
+# Backend
+target/
+uploads/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.vscode/
+.env
+application-local.properties
+
+# Frontend
+node_modules/
+dist/
+.env
+.env.local
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
