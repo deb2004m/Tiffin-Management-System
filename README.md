@@ -139,8 +139,8 @@ Or if using MySQL Workbench:
 - Execute the script
 
 **Default credentials** (update in `application.properties` before deployment):
-- Username: `root`
-- Password: `hellodeb@2024`
+- Username: `username`
+- Password: `password`
 - Database: `tiffin_management_db`
 
 #### 3. Backend Setup
